@@ -1,0 +1,29 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio temporary files
+*.vspscc
+*.vssscc
+*.bak
+*.scc
+
+# NuGet packages
+packages/
+*.nupkg
+.nuget/packages/
+
+# Rider files
+.idea/
+*.iml
+
+# Other common ignored files
+Thumbs.db
+Desktop.ini
