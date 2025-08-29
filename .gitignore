@@ -27,3 +27,4 @@ packages/
 # Other common ignored files
 Thumbs.db
 Desktop.ini
+.vss
