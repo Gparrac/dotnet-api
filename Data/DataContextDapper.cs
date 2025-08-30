@@ -4,32 +4,34 @@ using Microsoft.Data.SqlClient;
 
 namespace DotnetAPI
 {
-    class DataContextDapper
+    class DataContextDapper(IConfiguration config)
     {
-        private readonly IConfiguration _config;
-        public DataContextDapper(IConfiguration config)
-        {
-            _config = config;
-        }
+        private readonly IDbConnection dbConnection = new SqlConnection(config.GetConnectionString("connection"));
+
         public IEnumerable<T> LoadData<T>(string sql)
         {
-            IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString("connection"));
             return dbConnection.Query<T>(sql);
         }
         public T LoadDataSingle<T>(string sql)
         {
-            IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString("connection"));
             return dbConnection.QuerySingle<T>(sql);
         }
+        /*
+         The next two methods are vulnerables to SQL injection due
+         they don't handle parameters and stright interpolate  ⚠️
+         */
         public bool ExecuteSql(string sql)
         {
-            IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString("connection"));
             return dbConnection.Execute(sql) > 0;
         }
         public int ExecuteSqlWithRow(string sql)
         {
-            IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString("connection"));
             return dbConnection.Execute(sql);
+        }
+        // however this is the solution
+        public bool ExecuteSqlWithParams(string sql, object parameters)
+        {
+            return dbConnection.Execute(sql, parameters) > 0;
         }
     }
 }
