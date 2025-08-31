@@ -1,3 +1,5 @@
+using DotnetAPI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Add services to the container.
@@ -21,6 +23,8 @@ builder.Services.AddCors((options) =>
                     .AllowCredentials();
             });
     });
+// Expose or UserRepository to be called in whatever controller which has IUseRepository injected ℹ️
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

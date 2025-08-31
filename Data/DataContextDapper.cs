@@ -7,20 +7,20 @@ namespace DotnetAPI
     class DataContextDapper(IConfiguration config)
     {
         private readonly IDbConnection dbConnection = new SqlConnection(config.GetConnectionString("connection"));
-
+        
         public IEnumerable<T> LoadData<T>(string sql)
         {
             return dbConnection.Query<T>(sql);
         }
-        public T LoadDataSingle<T>(string sql)
+        public T LoadDataSingle<T>(string sql, object? parameters = null)
         {
-            return dbConnection.QuerySingle<T>(sql);
+            return dbConnection.QuerySingle<T>(sql, parameters ?? new {});
         }
         /*
          The next two methods are vulnerables to SQL injection due
          they don't handle parameters and stright interpolate  ⚠️
          */
-        public bool ExecuteSql(string sql)
+            public bool ExecuteSql(string sql)
         {
             return dbConnection.Execute(sql) > 0;
         }

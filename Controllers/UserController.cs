@@ -11,6 +11,7 @@ namespace DotnetAPI.Controllers;
 public class UserController : ControllerBase
 {
     DataContextDapper _dapper;
+    
     public UserController(IConfiguration config)
     {
         _dapper = new DataContextDapper(config);
