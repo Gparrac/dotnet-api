@@ -7,10 +7,10 @@ namespace DotnetAPI
     class DataContextDapper(IConfiguration config)
     {
         private readonly IDbConnection dbConnection = new SqlConnection(config.GetConnectionString("connection"));
-        
-        public IEnumerable<T> LoadData<T>(string sql)
+
+        public IEnumerable<T> LoadData<T>(string sql, object? parameters = null)
         {
-            return dbConnection.Query<T>(sql);
+            return dbConnection.Query<T>(sql, parameters ?? new {});
         }
         public T LoadDataSingle<T>(string sql, object? parameters = null)
         {
